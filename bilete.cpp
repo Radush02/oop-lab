@@ -40,9 +40,11 @@ partida::partida(const partida &game){
     strcpy(oaspeti,game.oaspeti);
 }
 partida& partida::operator=(const partida &rhs){
-    setDate(rhs.data);
-    setHome(rhs.gazda);
-    setAway(rhs.oaspeti);
+    if (&rhs!=this){
+        setDate(rhs.data);
+        setHome(rhs.gazda);
+        setAway(rhs.oaspeti);
+    }
     return *this;
 }
 void partida::setDate(char* date){
@@ -67,14 +69,14 @@ bool partida::operator==(const partida &rhs) const{
 }
 
 bool partida::operator!=(const partida &rhs) const{
-    return !(strcmp(data,rhs.data)==0) || !(strcmp(oaspeti,rhs.oaspeti)==0) || !(strcmp(gazda,rhs.gazda)==0);
+    return strcmp(data,rhs.data)!=0 || strcmp(oaspeti,rhs.oaspeti)!=0 || strcmp(gazda,rhs.gazda)!=0;
 }
 partida::~partida(){
     delete[] gazda;
     delete[] oaspeti;
     delete[] data;
 }
-std::ostream& operator<<(std::ostream &os, partida &rhs){
+std::ostream& operator<<(std::ostream &os,const partida &rhs){
     os<<"Data: "<<rhs.data<<" Echipa gazda: "<<rhs.gazda<<" Echipa oaspete: "<<rhs.oaspeti;
     return os;
 }
@@ -86,36 +88,37 @@ private:
     char *tip_bilet;
     int pret,loc;
  */
-bilete::bilete(const char *ticket_type, int pret_, int loc_, partida match) : match(match) {
+bilete::bilete(const char *ticket_type, int pret_, int loc_,const partida &m) : match(m) {
     tip_bilet=new char[strlen(ticket_type)];
     strcpy(tip_bilet,ticket_type);
     pret=pret_;
     loc=loc_;
 }
-bilete::bilete(const bilete &ticket, partida match) : match(match) {
+
+    bilete::bilete(const bilete &ticket,const partida &m) : match(m) {
     tip_bilet=new char[strlen(ticket.tip_bilet)];
     strcpy(tip_bilet,ticket.tip_bilet);
     pret=ticket.pret;
     loc=ticket.loc;
-    match=ticket.match;
+    match=m;
 }
-int bilete::getPrice(){
+int bilete::getPrice() const{
     return pret;
 }
-partida bilete::getMatch() {
+partida bilete::getMatch()const{
     return match;
 }
-int bilete::getSeat(){
+int bilete::getSeat() const{
     return loc;
 }
-char* bilete::getType(){
+char* bilete::getType() const{
     return tip_bilet;
 }
 
 void bilete::setPrice(int price){
     pret=price;
 }
-void bilete::setMatch(const partida m){
+void bilete::setMatch(const partida &m){
     match=m;
 }
 void bilete::setSeat(int seat){
@@ -136,7 +139,7 @@ bilete::~bilete(){
     delete[] tip_bilet;
     match.~partida();
 }
-std::ostream& operator<<(std::ostream &os, bilete &rhs){
-    os<<"Tip Bilet: "<<rhs.tip_bilet<<", Pret: "<<rhs.pret<<" RON, Loc: "<<rhs.loc<<"\nMeci:\n"<<rhs.match;
+std::ostream& operator<<(std::ostream &os,const bilete &rhs){
+    os<<"Tip Bilet: "<<rhs.tip_bilet<<", Pret: "<<rhs.pret<<" RON, Loc: "<<rhs.loc<<"\nMeci:\n"<<rhs.match<<"\n";
     return os;
 }

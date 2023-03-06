@@ -21,7 +21,7 @@ public:
     void setDate(char* date);
     void setHome(char* home);
     void setAway(char* away);
-    friend std::ostream& operator<<(std::ostream &os, partida &rhs);
+    friend std::ostream& operator<<(std::ostream &os,const partida &rhs);
     ~partida();
 };
 
@@ -31,19 +31,19 @@ private:
     char *tip_bilet;
     int pret,loc;
 public:
-    bilete(const char *ticket_type, int pret, int loc, partida match);
-    bilete(const bilete &ticket, partida match);
-    int getPrice();
-    int getSeat();
-    char* getType();
-    partida getMatch();
+    bilete(const char *ticket_type, int pret, int loc,const partida &m);
+    bilete(const bilete &ticket,const partida &m);
+    int getPrice() const;
+    int getSeat() const;
+    char* getType() const;
+    partida getMatch() const;
     void setPrice(int price);
     void setSeat(int seat);
     void setType(char* type);
-    void setMatch(const partida m);
+    void setMatch(const partida &m);
     bool operator !=(const bilete &rhs) const;
     bool operator ==(const bilete &rhs) const;
-    friend std::ostream& operator<<(std::ostream &os, bilete &s);
+    friend std::ostream& operator<<(std::ostream &os,const bilete &s);
     ~bilete();
 };
 
