@@ -105,5 +105,7 @@ int main() {
     if(n==1)
         goto start;
     cout<<"Va mai asteptam!\n";
+    delete[] meciuri;
+    delete[] vandute;
     return 0;
 }
