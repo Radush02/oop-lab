@@ -15,9 +15,9 @@ private:
 
 ///partida
 partida::partida(){
-    data=new char[0];
-    gazda=new char[0];
-    oaspeti=new char[0];
+    data=nullptr;
+    gazda=nullptr;
+    oaspeti=nullptr;
 }
 partida::partida(const char *date,const char *home, const char *away){
     data=new char[strlen(date)+1];
@@ -54,23 +54,37 @@ partida& partida::operator=(const partida &rhs){
     return *this;
 }
 void partida::setDate(const char* date){
-    delete[] data;
-    data=nullptr;
-    data=new char[strlen(date)+1];
-    strcpy(data,date);
+    if(date==nullptr || date[0]=='\0'){
+        delete[] data;
+        data=nullptr;
+    }
+    else{
+        delete[] data;
+        data=new char[strlen(date)+1];
+        strcpy(data,date);
+    }
 }
 
 void partida::setHome(const char* home){
-    delete[] gazda;
-    gazda=nullptr;
-    gazda=new char[strlen(home)+1];
-    strcpy(gazda,home);
+    if (home == nullptr || home[0] == '\0') {
+        delete[] gazda;
+        gazda = nullptr;
+    } else {
+        delete[] gazda;
+        gazda = new char[strlen(home) + 1];
+        strcpy(gazda, home);
+    }
 }
 void partida::setAway(const char* away){
-    delete[] oaspeti;
-    oaspeti=nullptr;
-    oaspeti=new char[strlen(away)+1];
-    strcpy(oaspeti,away);
+    if(away == nullptr || away[0]=='\0'){
+        delete[] oaspeti;
+        oaspeti=nullptr;
+    }
+    else{
+        delete[] oaspeti;
+        oaspeti=new char[strlen(away)+1];
+        strcpy(oaspeti,away);
+    }
 }
 
 bool partida::operator==(const partida &rhs) const{
@@ -120,7 +134,9 @@ private:
     int pret,loc;
 */
 bilete::bilete() : match(){
-    tip_bilet=new char[0];
+    tip_bilet=nullptr;
+    pret=0;
+    loc=0;
 }
 bilete::bilete(const char *ticket_type, int pret_, int loc_,const partida &m){
     tip_bilet=new char[strlen(ticket_type)+1];
@@ -169,10 +185,15 @@ void bilete::setSeat(const int seat){
     loc=seat;
 }
 void bilete::setType(const char* type) {
-    delete[] tip_bilet;
-    tip_bilet=nullptr;
-    tip_bilet=new char[strlen(type)+1];
-    strcpy(tip_bilet,type);
+    if(type==nullptr || type[0]=='\0'){
+        delete[] tip_bilet;
+        tip_bilet=nullptr;
+    }
+    else{
+        delete[] tip_bilet;
+        tip_bilet=new char[strlen(type)+1];
+        strcpy(tip_bilet,type);
+    }
 }
 bool bilete::operator !=(const bilete &rhs) const{
     return pret!=rhs.pret || match!=rhs.match || loc!=rhs.loc || strcmp(tip_bilet,rhs.tip_bilet)!=0;
@@ -232,5 +253,6 @@ std::istream& operator>>(std::istream &is, bilete &rhs){
     rhs.setSeat(loc_%100);
     std::cin>>meci_;
     rhs.setMatch(meci_);
+    delete[] aux;
     return is;
 }
