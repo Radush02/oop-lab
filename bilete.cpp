@@ -55,17 +55,20 @@ partida& partida::operator=(const partida &rhs){
 }
 void partida::setDate(const char* date){
     delete[] data;
+    data=nullptr;
     data=new char[strlen(date)+1];
     strcpy(data,date);
 }
 
 void partida::setHome(const char* home){
     delete[] gazda;
+    gazda=nullptr;
     gazda=new char[strlen(home)+1];
     strcpy(gazda,home);
 }
 void partida::setAway(const char* away){
     delete[] oaspeti;
+    oaspeti=nullptr;
     oaspeti=new char[strlen(away)+1];
     strcpy(oaspeti,away);
 }
@@ -115,10 +118,9 @@ private:
     partida match;
     char *tip_bilet;
     int pret,loc;
- */
-bilete::bilete(){
+*/
+bilete::bilete() : match(){
     tip_bilet=new char[0];
-    match=partida();
 }
 bilete::bilete(const char *ticket_type, int pret_, int loc_,const partida &m){
     tip_bilet=new char[strlen(ticket_type)+1];
@@ -136,7 +138,7 @@ bilete::bilete(const bilete &ticket){
     match=ticket.match;
 }
 bilete& bilete::operator=(const bilete &rhs){
-    if(*this!=rhs){
+    if(this!=&rhs){
         setMatch(rhs.match);
         setType(rhs.tip_bilet);
         pret=rhs.pret;
@@ -147,7 +149,7 @@ bilete& bilete::operator=(const bilete &rhs){
 int bilete::getPrice() const{
     return pret;
 }
-partida bilete::getMatch()const{
+partida bilete::getMatch() const{
     return match;
 }
 int bilete::getSeat() const{
@@ -168,6 +170,7 @@ void bilete::setSeat(const int seat){
 }
 void bilete::setType(const char* type) {
     delete[] tip_bilet;
+    tip_bilet=nullptr;
     tip_bilet=new char[strlen(type)+1];
     strcpy(tip_bilet,type);
 }
@@ -179,11 +182,17 @@ bool bilete::operator ==(const bilete &rhs) const{
 }
 bilete::~bilete(){
     delete[] tip_bilet;
-    //match.~partida();
 }
 std::ostream& operator<<(std::ostream &os,const bilete &rhs){
     os<<"Tip Bilet: "<<rhs.tip_bilet<<", Pret: "<<rhs.pret<<" RON, Loc: "<<rhs.loc<<"\nMeci:"<<rhs.match<<"\n";
     return os;
+}
+void toUpperCase(char* str) {
+    for (int i = 0; str[i] != '\0'; i++) {
+        if (islower(str[i])) {
+            str[i] = toupper(str[i]);
+        }
+    }
 }
 std::istream& operator>>(std::istream &is, bilete &rhs){
     char tip_bilet_[100];
@@ -194,8 +203,7 @@ std::istream& operator>>(std::istream &is, bilete &rhs){
     std::cin.getline(tip_bilet_,100);
     char *aux=new char[sizeof(tip_bilet_)+1];
     strcpy(aux,tip_bilet_);
-    for(char* c=aux; (*c=toupper(*c)); ++c)
-        ;
+    toUpperCase(aux);
     if(strcmp(aux,"PELUZA NORD")==0 || strcmp(aux,"PELUZA SUD")==0)
         rhs.setPrice(30);
 
