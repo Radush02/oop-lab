@@ -5,31 +5,11 @@
 #ifndef OOP_BILETE_H
 #define OOP_BILETE_H
 #include <iostream>
+#include "meci.h"
 
-class partida{
-private:
-    char *data,*gazda,*oaspeti;
-public:
-    partida(const char *date, const char *home, const char *away);
-    partida(const partida &game);
-    partida();
-    partida& operator=(const partida &rhs);
-    bool operator==(const partida &rhs) const;
-    bool operator!=(const partida &rhs) const;
-    char* getDate() const;
-    char* getHome() const;
-    char* getAway() const;
-    void setDate(const char* date);
-    void setHome(const char* home);
-    void setAway(const char* away);
-    friend std::ostream& operator<<(std::ostream &os,const partida &rhs);
-    friend std::istream& operator>>(std::istream &is,partida &rhs);
-    ~partida();
-};
 
-class bilete {
+class bilete : protected partida {
 private:
-    partida match;
     char *tip_bilet;
     int pret,loc;
 public:
@@ -39,7 +19,7 @@ public:
     bilete& operator=(const bilete &rhs);
     int getPrice() const;
     int getSeat() const;
-    char* getType() const;
+    const char* getType() const;
     partida getMatch() const;
     void setPrice(const int price);
     void setSeat(const int seat);
