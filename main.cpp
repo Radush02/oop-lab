@@ -136,10 +136,10 @@ int main() {
             bilete("Peluza Nord", 30, 26, meciuri[1])
     };
     vector<Arbitru> arbitri={
-            Arbitru("VAR",true,ConcretePersoana("Pierluigi Collina",50,1.68,64.6)),
-            Arbitru("Central",false,ConcretePersoana("Howard Webb",48,1.91,91.2)),
-            Arbitru("Tusier",false,ConcretePersoana("Markus Merk",42,1.84,85.5)),
-            Arbitru("Tusier",false,ConcretePersoana("Milorad Mazic",48,1.85,82.5))
+            Arbitru("VAR",true,ConcretePersoana("Pierluigi Collina",50,1.68f,64.6f)),
+            Arbitru("Central",false,ConcretePersoana("Howard Webb",48,1.91f,91.2f)),
+            Arbitru("Tusier",false,ConcretePersoana("Markus Merk",42,1.84f,85.5f)),
+            Arbitru("Tusier",false,ConcretePersoana("Milorad Mazic",48,1.85f,82.5f))
     };
     int n;
     start:
