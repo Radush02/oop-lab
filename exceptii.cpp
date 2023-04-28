@@ -3,7 +3,6 @@
 //
 
 #include "exceptii.h"
-using namespace std;
 exceptiiPersoane::exceptiiPersoane(const string nume,const int minAge,const int maxAge,const bool isSoccerPlayer) {
     if (isSoccerPlayer) {
         message = nume+" nu poate avea mai putin de " + std::to_string(minAge) +

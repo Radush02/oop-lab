@@ -28,9 +28,10 @@ Fotbalist genereazaFotbalist(const string rol,const string echipa){
     float inaltime=(float)nrRandom(160,200)/100;
     float greutate=inaltime*inaltime*(float)nrRandom(180,290)/10;
     return Fotbalist(rol,echipa,false,ConcretePersoana(prenume[nrRandom(0,13)]+" "+nume[nrRandom(0,13)],varsta,inaltime,greutate));
+    ///Fotbalist("Mijlocas","Rapid Brodoc",false,ConcretePersoana("Frenkie de Jong",21,1.64,74.4)));
 
 }
-int decideScor(vector<shared_ptr<Persoana>> const p, Arbitru ref){
+int decideScor(vector<shared_ptr<Persoana>> const p, unique_ptr<Arbitru> &ref){
     int rezultat,scor=0;
     vector<string> motiveVAR {"jucatorul se afla in poztie neregulamentara.","a fost hent.","jucatorul a comis un fault in constructia atacului."};
     vector<string> motiveCartonase {"jucatorul a comis un fault.","arbitrul nu putut trece cu vederea atacul facut de jucator","a comis un hent","a adresat injurii altor jucatori","nu si-a pastrat cumpatul cu privire la suporteri"};
@@ -50,8 +51,8 @@ int decideScor(vector<shared_ptr<Persoana>> const p, Arbitru ref){
                 if(rezultat==1)
                 {
                     cout << "Gol " << aux->getnume() << "\n";
-                    if (ref.getPosition()=="VAR")
-                        if(ref.takeDecision()==1)
+                    if (ref->getPosition()=="VAR")
+                        if(ref->takeDecision()==1)
                         {
                             scor--;
                             cout<<"Gol anulat de VAR deoarece "+motiveVAR[nrRandom(0,2)]+"\n";
@@ -59,8 +60,8 @@ int decideScor(vector<shared_ptr<Persoana>> const p, Arbitru ref){
                     scor++;
                 }
                 if(rezultat==0){
-                    if(ref.getPosition()!="VAR")
-                        if(ref.takeDecision()==1)
+                    if(ref->getPosition()!="VAR")
+                        if(ref->takeDecision()==1)
                         {
                             aux->setCartonase(aux->getCartonase()+1);
                             cout<<aux->getnume()+" a primit un cartonas galben deoarece "+motiveCartonase[nrRandom(0,4)]+"\n";
@@ -267,7 +268,7 @@ int main() {
                 onField.emplace_back(f);
             cout<<"Se va disputa meciul intre "+echipa+" si "+dynamic_cast<Fotbalist*>(onField[0].get())->getEchipa()+"\n";
 
-            Arbitru ref=arbitri[nrRandom(0,arbitri.size())];
+            unique_ptr<Arbitru> ref=make_unique<Arbitru>("Central",true,ConcretePersoana("Pierluigi Collina",50,1.68,64.6));
 
             int scorGazda=decideScor(echipaJucator,ref);
             int scorOaspeti=decideScor(onField,ref);
@@ -297,8 +298,8 @@ int main() {
                 Oaspeti.emplace_back(f);
             cout<<"Se va disputa meciul intre "+dynamic_cast<Fotbalist*>(Gazda[0].get())->getEchipa()+" si "+dynamic_cast<Fotbalist*>(Oaspeti[0].get())->getEchipa()+"\n";
 
-            Arbitru ref=arbitri[nrRandom(0,arbitri.size())];
-            cout<<"Arbitrul acestui meci este: "<<ref.getnume()<<"\n";
+            unique_ptr<Arbitru> ref=make_unique<Arbitru>(arbitri[nrRandom(0,arbitri.size())]);
+            cout<<"Arbitrul acestui meci este: "<<ref->getnume()<<"\n";
 
             int scorGazda=decideScor(Gazda,ref);
             int scorOaspeti=decideScor(Oaspeti,ref);
@@ -334,10 +335,11 @@ int main() {
     cout<<"Va mai asteptam!\n";
 
 
-    echipaJucator.clear();
-    lotEchipe.clear();
+     echipaJucator.clear();
+     lotEchipe.clear();
     return 0;
 }
+
 
 
 
