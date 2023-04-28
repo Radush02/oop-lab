@@ -1,17 +1,47 @@
+Bogdan
+19
+81
+1.81
 1
-Tribuna I
-12
-12/03/2023
-FCSB
-Sepsi Sf. Gheorghe
-1
-3
-1
-4
-17/03/2023
-Rapid Bucuresti
-Dinamo Bucuresti
+VIP
+78
+10/03/2023
+Univ. Craiova
+CS Mioveni
 1
 2
 1
+1
+3
+1
+1
+4
+29/04/2023
+Poli Iasi
+Otelul Galati
+1
+5
+Rapid Brodoc
+Radu Cordunianu
+19
+81
+1.81
+atacant
+Kylian Mbappe
+19
+81
+1.81
+atacant
+Zidane
+19
+81
+1.81
+Mijlocas
+Lionel Messi
+20
+61
+1.65
+Atacant
+6
+3
 2

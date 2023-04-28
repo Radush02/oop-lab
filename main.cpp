@@ -84,8 +84,10 @@ int getNrRol(vector<shared_ptr<Fotbalist>> f,string rol){
     }
     return roluri;
 }
+int bilete::balanta=400;
 int main() {
     ConcretePersoana p;
+
     vector<shared_ptr<Persoana>> echipaJucator;
     int nrAtacanti=0;
     string echipa;
@@ -131,29 +133,34 @@ int main() {
             bilete("VIP", 300, 15, meciuri[0]),
             bilete("Peluza Nord", 30, 26, meciuri[1])
     };
-
+    vector<Arbitru> arbitri={
+            Arbitru("VAR",true,ConcretePersoana("Pierluigi Collina",50,1.68,64.6)),
+            Arbitru("Central",false,ConcretePersoana("Howard Webb",48,1.91,91.2)),
+            Arbitru("Tusier",false,ConcretePersoana("Markus Merk",42,1.84,85.5)),
+            Arbitru("Tusier",false,ConcretePersoana("Milorad Mazic",48,1.85,82.5))
+    };
     int n;
     start:
     cout << "Bine ati venit pe Arena Nationala. Momentan se vor juca " << nr_meciuri << " meciuri si s-au vandut "<<nr_bilete<<" bilete!\n";
-    cout<< "Doriti sa cumparati un bilet, "
-           "sa vedeti lista de meciuri sau biletele deja vandute "
-           "sa adaugati o noua disputa, sau sa jucati un meci amical?"
-           "\n1)Cumpara bilet\n"
+    cout<< "Ce doriti sa faceti?"
+           "\n1)Vinde un bilet\n"
            "2)Lista de meciuri\n"
            "3)Bilete vandute\n"
            "4)Adauga un nou meci\n"
-           "5)Joc un amical\n"
-           "6)Vezi un meci\n";
+           "5)Joaca un amical\n"
+           "6)Vezi un meci\n"
+           "7)Angajeaza arbitru\n"
+           "8)Verificati banii obtinuti din biletele vandute.\n";
     cin >> n;
     cin.get();
     switch (n) {
         case 1: {
             bool gasit = false;
             nr_bilete++;
-            partida aux;
+            bilete aux;
             cin >> aux;
             for (int i = 0; i < nr_meciuri; i++)
-                if (aux == meciuri[i]) { //testat operator de egalitate
+                if (aux.getMatch() == meciuri[i]) { //testat operator de egalitate
                     gasit = true;
                     break;
                 }
@@ -162,7 +169,7 @@ int main() {
                 nr_bilete--;
                 break;
             }
-            meciuri.push_back(aux);
+            vandute.push_back(aux);
             cout<<"Bilet achizitionat!\n"<<vandute[nr_bilete-1]<<"\n";
             break;
         }
@@ -203,9 +210,15 @@ int main() {
             break;
         }
         case 4:{
-            nr_meciuri++;
             partida aux;
-            cin>>aux;
+            try {
+                cin >> aux;
+            }
+            catch(exceptiiMeci &e){
+                cout<<e.what();
+                break;
+            }
+            nr_meciuri++;
             meciuri.push_back(aux);
             cout<<"Meci adaugat! "<<meciuri[nr_meciuri-1]<<"\n";
             for(int i=0;i<3;i++)
@@ -236,6 +249,7 @@ int main() {
                 try{
                     Fotbalist aux;
                     cin>>aux;
+                    cin.get();
                     aux.setEchipa(echipa);
                     echipaJucator.push_back(make_shared<Fotbalist>(aux));
                     if(aux.getRole()=="Atacant")
@@ -243,6 +257,7 @@ int main() {
                 }
                 catch(exceptiiPersoane &e){
                     cout<<e.what();
+                    cin.get();
                 }
             }
             vector<shared_ptr<Persoana>> onField;
@@ -281,7 +296,8 @@ int main() {
                 Oaspeti.emplace_back(f);
             cout<<"Se va disputa meciul intre "+dynamic_cast<Fotbalist*>(Gazda[0].get())->getEchipa()+" si "+dynamic_cast<Fotbalist*>(Oaspeti[0].get())->getEchipa()+"\n";
 
-            unique_ptr<Arbitru> ref=make_unique<Arbitru>("Central",true,ConcretePersoana("Pierluigi Collina",50,1.68,64.6));
+            unique_ptr<Arbitru> ref=make_unique<Arbitru>(arbitri[nrRandom(0,arbitri.size())]);
+            cout<<"Arbitrul acestui meci este: "<<ref->getnume()<<"\n";
 
             int scorGazda=decideScor(Gazda,ref);
             int scorOaspeti=decideScor(Oaspeti,ref);
@@ -289,6 +305,19 @@ int main() {
                   to_string(scorOaspeti);
             Gazda.clear();
             Oaspeti.clear();
+            break;
+        }
+        case 7:
+        {
+            Arbitru arb;
+            cin>>arb;
+            arbitri.push_back(arb);
+            arbitri[arbitri.size()-1].showPersoana();
+            break;
+        }
+        case 8:
+        {
+            cout<<bilete::getBalanta();
             break;
         }
         default:

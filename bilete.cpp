@@ -6,7 +6,7 @@
 #include <cstring>
 #include <iostream>
 #include <regex>
-
+#include "exceptii.h"
 bilete::bilete():tip_bilet(new char[1]){
     tip_bilet[0]='\0';
     pret=0;
@@ -16,9 +16,15 @@ bilete::bilete(const char *ticket_type, int pret_, int loc_,const partida &m) : 
     tip_bilet=new char[strlen(ticket_type)+1];
     strcpy(tip_bilet,ticket_type);
     pret=pret_;
+    balanta+=pret_;
     loc=loc_;
 }
-
+void bilete::updateBalanta(int valoareBilet){
+    balanta+=valoareBilet;
+}
+int bilete::getBalanta(){
+    return balanta;
+}
 bilete::bilete(const bilete &ticket):partida(ticket){
     tip_bilet=new char[strlen(ticket.tip_bilet)+1];
     strcpy(tip_bilet,ticket.tip_bilet);
@@ -48,6 +54,7 @@ const char* bilete::getType() const{
 }
 
 void bilete::setPrice(const int price){
+    balanta+=price;
     pret=price;
 }
 void bilete::setMatch(const partida &m){
@@ -113,9 +120,7 @@ std::istream& operator>>(std::istream &is, bilete &rhs){
         rhs.setPrice(300);
     else
     {
-        std::cout<<"Tip de bilet invalid!\nBilete valide si preturile: "
-                  "Peluza Nord - 30 RON, Peluza Sud - 30 RON, Tribuna II - 50 RON, Tribuna I - 60 RON, "
-                  "Tribuna 0 - 100 RON, VIP - 300 RON\n"<<aux;
+        throw exceptiiVanzare();
         goto buy_ticket;
     }
     rhs.setType(tip_bilet_);

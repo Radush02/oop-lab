@@ -74,9 +74,12 @@ private:
 public:
     Arbitru();
     Arbitru(const string& position,const bool isStrict, const ConcretePersoana &p);
+    void setPosition(string position);
+    void setStrict(bool isStrict);
     int takeDecision() override;
     void showPersoana() override;
     string getPosition();
+    friend std::istream& operator>>(std::istream &is, Arbitru& rhs);
 
 };
 

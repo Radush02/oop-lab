@@ -17,5 +17,20 @@ public:
     exceptiiPersoane(string nume,int height,int weight);
 };
 
+class exceptiiVanzare : public std::exception{
+private:
+    string message;
+public:
+    exceptiiVanzare();
+    virtual const char* what() const throw();
+};
+
+class exceptiiMeci : public std::exception{
+private:
+    string message;
+public:
+    exceptiiMeci(char* text);
+    virtual const char* what() const throw();
+};
 
 #endif //OOP_EXCEPTII_H

@@ -7,6 +7,7 @@
 #include <iostream>
 #include <random>
 #include "exceptii.h"
+#include "bilete.h"
 string firstLetter(string k){
     k[0]=toupper(k[0]);
     for(int i=1;i<(int)k.length();i++){
@@ -70,7 +71,7 @@ std::istream& operator>>(std::istream &is,Persoana &rhs){
     int varsta;
     float weight,height;
     cout<<"Nume:";
-    cin>>nume;
+    getline(cin,nume);
     cout<<"Varsta:";
     cin>>varsta;
     cout<<"Greutate:";
@@ -121,6 +122,28 @@ std::istream& operator>>(std::istream &is, Fotbalist& rhs){
     rhs.setCartonase(0);
     return is;
 }
+void Arbitru::setPosition(string position_){
+    position=position_;
+}
+void Arbitru::setStrict(bool strictete){
+    isStrict=strictete;
+}
+std::istream& operator>>(std::istream &is, Arbitru& rhs) {
+    is >> static_cast<Persoana&>(rhs);
+    if (rhs.getvarsta() < 16 || rhs.getvarsta() > 45) {
+        throw exceptiiPersoane(rhs.getnume(), 16, 45, true);
+    }
+    string pozitie;
+    bool isStrict;
+    cout << "Rol (Pozitie):";
+    cin >> pozitie;
+    cout << "Este strict?";
+    cin >> isStrict;
+    rhs.setPosition(pozitie);
+    rhs.setStrict(isStrict);
+    return is;
+}
+
 void Fotbalist::showPersoana() {
     Persoana::showPersoana();
     cout<<" "<<role<<" "<<echipa<<" ";
@@ -180,7 +203,7 @@ bool Persoana::operator ==(const Persoana &rhs) const{
     return nume==rhs.nume && varsta==rhs.varsta && height==rhs.height && weight==rhs.weight;
 }
 Arbitru::Arbitru(){
-    position=nullptr;
+    position="";
     isStrict=false;
 }
 Arbitru::Arbitru(const string& position,const bool isStrict,const ConcretePersoana &p):Persoana(p){

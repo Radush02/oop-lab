@@ -24,3 +24,20 @@ exceptiiPersoane::exceptiiPersoane(string nume,int height,int weight){
 const char* exceptiiPersoane::what() const throw() {
     return message.c_str();
 }
+
+exceptiiVanzare::exceptiiVanzare() {
+    message="Tip de bilet invalid!\nBilete valide si preturile: "
+               "Peluza Nord - 30 RON, Peluza Sud - 30 RON, Tribuna II - 50 RON, Tribuna I - 60 RON, "
+               "Tribuna 0 - 100 RON, VIP - 300 RON\n";
+}
+const char* exceptiiVanzare::what() const throw(){
+    return message.c_str();
+}
+exceptiiMeci::exceptiiMeci(char* data){
+    string s(data);
+    message="Data "+s+" este invalida. Data trebuie sa fie de forma dd/mm/yyyy sau sa fie o data valida.\n";
+
+}
+const char* exceptiiMeci::what() const throw(){
+    return message.c_str();
+}

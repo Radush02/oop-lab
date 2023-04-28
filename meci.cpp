@@ -6,6 +6,7 @@
 #include <iostream>
 #include <cstring>
 #include <regex>
+#include "exceptii.h"
 partida::partida() : data(new char[1]), gazda(new char[1]), oaspeti(new char[1]) {
     data[0] = '\0';
     gazda[0] = '\0';
@@ -108,14 +109,11 @@ std::ostream& operator<<(std::ostream &os,const partida &rhs){
 
 std::istream& operator>>(std::istream &is,partida &rhs){
     std::cout<<"Data meciului:";
-    start:
     char data_[50];
     is.getline(data_,50);
     std::regex format("^(0?[1-9]|[12][0-9]|3[01])[\\/\\-](0?[1-9]|1[012])[\\/\\-]\\d{4}$");
-    if(!std::regex_search(data_,format)){
-        std::cout<<"Data trebuie sa fie de forma dd/mm/yyyy sau sa fie o data valida.\n";
-        goto start;
-    }
+    if(!std::regex_search(data_,format))
+        throw exceptiiMeci(data_);
     std::cout<<"Echipa gazda:";
     char gazda_[100],oaspete_[100];
     is.getline(gazda_,100);

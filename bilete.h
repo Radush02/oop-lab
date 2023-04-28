@@ -12,6 +12,7 @@ class bilete : protected partida {
 private:
     char *tip_bilet;
     int pret,loc;
+    static int balanta;
 public:
     bilete();
     bilete(const char *ticket_type, int pret, int loc,const partida &m);
@@ -21,6 +22,8 @@ public:
     int getSeat() const;
     const char* getType() const;
     partida getMatch() const;
+    static void updateBalanta(int valoareBilet);
+    static int getBalanta();
     void setPrice(const int price);
     void setSeat(const int seat);
     void setType(const char* type);
