@@ -40,7 +40,8 @@ void Fotbalist::showPersoana() {
 
 Fotbalist::Fotbalist(){
     role=echipa="";
-    hasBall=cartonase=0;
+    hasBall=0;
+    cartonase=0;
 }
 Fotbalist::Fotbalist(const string& role,const string echipa,const bool hasBall,const ConcretePersoana& p):Persoana(p){
     if(p.getvarsta()<16 || p.getvarsta()>45){
