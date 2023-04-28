@@ -8,6 +8,8 @@
 #include "Persoana.h"
 #include "exceptii.h"
 #include <map>
+#include "Arbitru.h"
+#include "Fotbalist.h"
 /*
  * Cordunianu Radu - Gr 133
  */
@@ -19,7 +21,7 @@ int nrRandom(int mn,int mx){
     return  distr(gen);
 }
 
-Fotbalist genereazaFotbalist(string rol,string echipa){
+Fotbalist genereazaFotbalist(const string rol,const string echipa){
     vector<string> prenume={"Florinel","Bahoi","Daniel","Marcus","Kylian","Lionel","Neymar","Dan","Aurel","Cristiano","Teodor","Radu","Alexandru","Mihai"};
     vector<string> nume = {"Popescu", "Ionescu", "Dragomir", "Stoica", "Dumitru", "Munteanu", "Vasilescu", "Radulescu", "Marinescu", "Constantin", "Tanase", "Preda", "Chiriac", "Tudorache"};
     int varsta=nrRandom(16,40);
@@ -29,8 +31,8 @@ Fotbalist genereazaFotbalist(string rol,string echipa){
     ///Fotbalist("Mijlocas","Rapid Brodoc",false,ConcretePersoana("Frenkie de Jong",21,1.64,74.4)));
 
 }
-int decideScor(const vector<shared_ptr<Persoana>> p, unique_ptr<Arbitru> &ref){
-    int rezultat=0,scor=0;
+int decideScor(vector<shared_ptr<Persoana>> const p, unique_ptr<Arbitru> &ref){
+    int rezultat,scor=0;
     vector<string> motiveVAR {"jucatorul se afla in poztie neregulamentara.","a fost hent.","jucatorul a comis un fault in constructia atacului."};
     vector<string> motiveCartonase {"jucatorul a comis un fault.","arbitrul nu putut trece cu vederea atacul facut de jucator","a comis un hent","a adresat injurii altor jucatori","nu si-a pastrat cumpatul cu privire la suporteri"};
     for(auto& x:p)
@@ -75,7 +77,7 @@ int decideScor(const vector<shared_ptr<Persoana>> p, unique_ptr<Arbitru> &ref){
     }
     return scor;
 }
-int getNrRol(vector<shared_ptr<Fotbalist>> f,string rol){
+int getNrRol(vector<shared_ptr<Fotbalist>> f,const string rol){
     string aux=firstLetter(rol);
     int roluri=0;
     for(auto &x:f){
@@ -113,7 +115,7 @@ int main() {
     meciuri[2].setHome("Farul Constanta");
     meciuri[2].setAway("Rapid Bucuresti");
     map<string,vector<shared_ptr<Fotbalist>>> lotEchipe;
-    for(auto &x:meciuri){
+    for(const auto &x:meciuri){
         for(int i=0;i<3;i++)
         {
             if(getNrRol(lotEchipe[x.getHome()],"Atacant")<=3)

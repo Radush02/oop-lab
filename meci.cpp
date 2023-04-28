@@ -41,6 +41,9 @@ partida::partida(const partida &game){
     strcpy(oaspeti,game.oaspeti);
 }
 void partida::setPartida(const partida &game){
+    delete[] data;
+    delete[] gazda;
+    delete[] oaspeti;
     data=new char[strlen(game.data)+1];
     gazda=new char[strlen(game.gazda)+1];
     oaspeti=new char[strlen(game.oaspeti)+1];

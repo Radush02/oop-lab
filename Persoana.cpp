@@ -8,6 +8,7 @@
 #include <random>
 #include "exceptii.h"
 #include "bilete.h"
+
 string firstLetter(string k){
     k[0]=toupper(k[0]);
     for(int i=1;i<(int)k.length();i++){
@@ -93,106 +94,16 @@ std::istream& operator>>(std::istream &is,Persoana &rhs){
     }
     return is;
 }
-string Fotbalist::getRole(){
-    return role;
-}
-string Arbitru::getPosition(){
-    return position;
-}
+
+
 std::istream& operator>>(std::istream &is, ConcretePersoana& rhs){
     is>>static_cast<Persoana&>(rhs);
     return is;
 }
-void Fotbalist::setEchipa(string echipa_){
-    echipa=echipa_;
-}
-void Fotbalist::setRole(string role_){
-    role=firstLetter(role_);
-}
-std::istream& operator>>(std::istream &is, Fotbalist& rhs){
-    is>>static_cast<Persoana&>(rhs);
-    if(rhs.getvarsta()<16 || rhs.getvarsta()>45){
-        throw exceptiiPersoane(rhs.getnume(),16,45,true);
-    }
-    string role,echipa;
-    cout<<"Rol (Pozitie):";
-    cin>>role;
-    rhs.setBall(false);
-    rhs.setRole(role);
-    rhs.setCartonase(0);
-    return is;
-}
-void Arbitru::setPosition(string position_){
-    position=position_;
-}
-void Arbitru::setStrict(bool strictete){
-    isStrict=strictete;
-}
-std::istream& operator>>(std::istream &is, Arbitru& rhs) {
-    is >> static_cast<Persoana&>(rhs);
-    if (rhs.getvarsta() < 16 || rhs.getvarsta() > 45) {
-        throw exceptiiPersoane(rhs.getnume(), 16, 45, true);
-    }
-    string pozitie;
-    bool isStrict;
-    cout << "Rol (Pozitie):";
-    cin >> pozitie;
-    cout << "Este strict?";
-    cin >> isStrict;
-    rhs.setPosition(pozitie);
-    rhs.setStrict(isStrict);
-    return is;
-}
-
-void Fotbalist::showPersoana() {
-    Persoana::showPersoana();
-    cout<<" "<<role<<" "<<echipa<<" ";
-}
-
-Fotbalist::Fotbalist(){
-    role=echipa="";
-    hasBall=0;
-}
-
 int ConcretePersoana::takeDecision() {
     return 0;
 }
-Fotbalist::Fotbalist(const string& role,const string echipa,const bool hasBall,const ConcretePersoana& p):Persoana(p){
-    if(p.getvarsta()<16 || p.getvarsta()>45){
-        throw exceptiiPersoane(p.getnume(),16,45,true);
-    }
-        this->role=role;
-        this->echipa=echipa;
-        this->hasBall=hasBall;
-        this->cartonase=0;
-}
-string Fotbalist::getEchipa(){
-    return echipa;
-}
-short Fotbalist::getCartonase(){
-    return cartonase;
-}
-void Fotbalist::setCartonase(const short cartonase_){
-    this->cartonase=cartonase_;
-}
-void Fotbalist::setBall(bool stare){
-    this->hasBall=stare;
-}
-int Fotbalist::takeDecision() {
-    if(!hasBall)
-        return -1;
-    if(this->role=="Atacant")
-    {
-        std::random_device rd;
-        std::mt19937 gen(rd());
-        std::uniform_int_distribution<> distr(1, 10);
 
-        int random_num = distr(gen);
-        if (random_num<4)
-            return 1;
-    }
-    return 0;
-}
 const ConcretePersoana& ConcretePersoana::getPersoana() const {
     return static_cast<const ConcretePersoana&>(*this);
 }
@@ -202,37 +113,5 @@ const Persoana& Persoana::getPersoana() const {
 bool Persoana::operator ==(const Persoana &rhs) const{
     return nume==rhs.nume && varsta==rhs.varsta && height==rhs.height && weight==rhs.weight;
 }
-Arbitru::Arbitru(){
-    position="";
-    isStrict=false;
-}
-Arbitru::Arbitru(const string& position,const bool isStrict,const ConcretePersoana &p):Persoana(p){
-    if(p.getvarsta()<16 || p.getvarsta()>55){
-        throw exceptiiPersoane(p.getnume(),16,55,true);
-    }
-    this->position=position;
-    this->isStrict=isStrict;
-}
 
-int Arbitru::takeDecision()
-{
-    std::random_device rd;
-    std::mt19937 gen(rd());
-    std::uniform_int_distribution<> distr(1, 10);
-    int random_num = distr(gen);
-    if(this->isStrict){
-        if (random_num<5)
-            return 1;
-    }
-    else{
-        if(random_num<3)
-            return 1;
-    }
-    return 0;
-}
-
-void Arbitru::showPersoana() {
-    Persoana::showPersoana();
-    cout<<" "<<position<<" "<<isStrict;
-}
 

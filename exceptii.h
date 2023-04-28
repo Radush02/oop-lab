@@ -11,10 +11,10 @@ class exceptiiPersoane : public std::exception {
 private:
     string message;
 public:
-    exceptiiPersoane(string nume,int minAge, int maxAge, bool isSoccerPlayer);
+    exceptiiPersoane(const string nume,const int minAge,const int maxAge,const bool isSoccerPlayer);
     virtual const char* what() const throw();
-    exceptiiPersoane(string nume,int IMC);
-    exceptiiPersoane(string nume,int height,int weight);
+    exceptiiPersoane(const string nume,const int IMC);
+    exceptiiPersoane(const string nume,const int height,const int weight);
 };
 
 class exceptiiVanzare : public std::exception{
@@ -29,6 +29,7 @@ class exceptiiMeci : public std::exception{
 private:
     string message;
 public:
+    exceptiiMeci();
     exceptiiMeci(char* text);
     virtual const char* what() const throw();
 };

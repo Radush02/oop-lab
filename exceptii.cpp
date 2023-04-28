@@ -3,7 +3,7 @@
 //
 
 #include "exceptii.h"
-exceptiiPersoane::exceptiiPersoane(string nume,int minAge, int maxAge, bool isSoccerPlayer) {
+exceptiiPersoane::exceptiiPersoane(const string nume,const int minAge,const int maxAge,const bool isSoccerPlayer) {
     if (isSoccerPlayer) {
         message = nume+" nu poate avea mai putin de " + std::to_string(minAge) +
                   " ani sau mai mult de " + std::to_string(maxAge)+" ani!\n";
@@ -12,13 +12,13 @@ exceptiiPersoane::exceptiiPersoane(string nume,int minAge, int maxAge, bool isSo
                   " ani sau mai putin de " + std::to_string(minAge)+" ani!\n";
     }
 }
-exceptiiPersoane::exceptiiPersoane(string nume,int IMC){
+exceptiiPersoane::exceptiiPersoane(const string nume,const int IMC){
     if(IMC>25)
         message=nume+" are indicele de masa corporala prea mare!";
     else
         message=nume+" are indicele de masa corporala prea mic!";
 }
-exceptiiPersoane::exceptiiPersoane(string nume,int height,int weight){
+exceptiiPersoane::exceptiiPersoane(const string nume,const int height,const int weight){
     message=nume+" nu poate avea "+std::to_string(weight)+" kilograme si "+std::to_string(height)+" metri!";
 }
 const char* exceptiiPersoane::what() const throw() {
@@ -32,6 +32,9 @@ exceptiiVanzare::exceptiiVanzare() {
 }
 const char* exceptiiVanzare::what() const throw(){
     return message.c_str();
+}
+exceptiiMeci::exceptiiMeci(){
+    message="Data invalida.";
 }
 exceptiiMeci::exceptiiMeci(char* data){
     string s(data);

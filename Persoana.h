@@ -45,42 +45,4 @@ public:
 };
 
 
-class Fotbalist : virtual public Persoana{
-private:
-    string role,echipa;
-    short cartonase;
-    bool hasBall;
-public:
-    Fotbalist();
-    Fotbalist(const string& role,const string echipa,const bool hasBall,const ConcretePersoana &p);
-    void showPersoana() override;
-    int takeDecision() override;
-    void setBall(bool stare);
-    void setRole(string role);
-    void setEchipa(string echipa);
-    void setCartonase(short cartonase);
-    friend std::istream& operator>>(std::istream &is,Fotbalist &rhs);
-    string getRole();
-    string getEchipa();
-    short getCartonase();
-};
-
-
-
-class Arbitru : virtual public Persoana{
-private:
-    string position;
-    bool isStrict;
-public:
-    Arbitru();
-    Arbitru(const string& position,const bool isStrict, const ConcretePersoana &p);
-    void setPosition(string position);
-    void setStrict(bool isStrict);
-    int takeDecision() override;
-    void showPersoana() override;
-    string getPosition();
-    friend std::istream& operator>>(std::istream &is, Arbitru& rhs);
-
-};
-
 #endif //OOP_PERSOANA_H

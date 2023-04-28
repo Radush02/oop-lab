@@ -98,7 +98,6 @@ std::istream& operator>>(std::istream &is, bilete &rhs){
     char tip_bilet_[100];
     int loc_;
     partida meci_;
-    buy_ticket:
     std::cout<<"Tipul de bilet:";
     std::cin.getline(tip_bilet_,100);
     char *aux=new char[sizeof(tip_bilet_)+1];
@@ -119,10 +118,7 @@ std::istream& operator>>(std::istream &is, bilete &rhs){
     else if(strcmp(aux,"VIP")==0)
         rhs.setPrice(300);
     else
-    {
         throw exceptiiVanzare();
-        goto buy_ticket;
-    }
     rhs.setType(tip_bilet_);
     std::cout<<"Locul dorit (0-99)";
     std::cin>>loc_;
